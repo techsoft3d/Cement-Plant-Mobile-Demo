@@ -1,4 +1,4 @@
-import { startViewer } from "./javascripts/conversionService.js";
+import { startViewer } from "/javascripts/conversionService.js";
 
 export default function createViewer(containerId) {
     return new Promise(async function (resolve, reject) {
