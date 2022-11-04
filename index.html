@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Cement Plant Viewer | HOOPS Web Viewer</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PB9P4KS');</script>
+  <!-- End Google Tag Manager -->
+  <script type="text/javascript" src="javascripts/communicator_scripts/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="javascripts/jquery-ui-1.9.2.custom.js"></script>
+  <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@2022.2.0/hoops_web_viewer.js?v=2022.2.0"></script>
+  <script type="text/javascript" src="javascripts/communicator_scripts/web_viewer_ui.js?v=2022.2.0" id="hwvUI"></script>
+
+  <script type="module" src="javascripts/conversionService.js"></script>
+  <script type="module" src="javascripts/plant_viewer.js"></script>
+
+  <script type="text/javascript" src="javascripts/resource.js"></script>
+  <script type="text/javascript" src="javascripts/mobile_event_listener.js"></script>
+  <script type="text/javascript" src="javascripts/camera.js"></script>
+  <script type="text/javascript" src="javascripts/clip_func.js"></script>
+  <script type="text/javascript" src="javascripts/general_func.js"></script>
+  <script type="text/javascript" src="javascripts/walk_func.js"></script>
+  <script type="text/javascript" src="javascripts/orbit_ctrl_operator.js"></script>
+  <script type="text/javascript" src="javascripts/annotation_operator.js"></script>
+  <script type="text/javascript" src="javascripts/text_markup_operator.js"></script>
+
+  <link rel="stylesheet" href="stylesheets/jquery-ui-1.9.2.custom.min.css" />
+  <link rel="stylesheet" href="stylesheets/bootstrap.min.css" />
+  <link rel="stylesheet" href="stylesheets/plant_viewer.css" />
+  <link rel="stylesheet" href="stylesheets/Toolbar.css" />
+
+  <script>
+    var plantViewer;
+    var g_token = [];
+  </script>
+  <script type="module">
+    import plant_viewer from "./javascripts/plant_viewer.js";
+
+    var language = browserLanguage();
+    var plantName = "Plant1";
+    var viewerMode = "CSR";
+    var targets = [
+      { group: "hull", block: "Control-Feed-Silo" },
+      { group: "hull", block: "Esp-Filters" },
+      { group: "hull", block: "Raw-Mill-Ducting" },
+    ];
+    var modelDir = "/demos/cement-plant-viewer/model_data_plant";
+    var userName = "TS3D";
+
+    plantViewer = new plant_viewer(
+      viewerMode,
+      language,
+      plantName,
+      targets,
+      modelDir,
+      userName
+    );
+    plantViewer.start();
+
+    var proxy = getURLArgument("proxy");
+    if (proxy == undefined) {
+      $("#backFrm").attr("action", "plant_viewer_plants.php?isLocal=on");
+    }
+
+    $("input[name=ship]").val(plantName);
+    $("input[name=viewer]").val(viewerMode);
+    $("input[name=targets]").val(JSON.stringify(targets));
+  </script>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PB9P4KS" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="content">
+    <div id="container"></div>
+    <!-- Toolbar HTML-->
+    <div id="toolBar">
+      <div class="toolbar-tools">
+        <div id="home-button" title="Reset Camera" data-operatorclass="toolbar-iso" class="hoops-tool">
+          <div class="tool-icon"></div>
+        </div>
+        <div id="tool_separator_1" class="tool-separator"></div>
+        <div id="view-button" title="Camera Menu" data-operatorclass="toolbar-camera" data-submenu="view-submenu"
+          class="hoops-tool toolbar-menu">
+          <div class="tool-icon"></div>
+        </div>
+        <div id="edgeface-button" title="Wireframe on Shaded" data-operatorclass="toolbar-wireframeshaded"
+          data-submenu="edgeface-submenu" class="hoops-tool toolbar-menu">
+          <div class="tool-icon"></div>
+        </div>
+        <div id="tool_separator_2" class="tool-separator"></div>
+        <div id="camera-button" title="Orbit Camera" data-operatorclass="toolbar-orbit" data-submenu="camera-submenu"
+          class="hoops-tool toolbar-menu">
+          <div class="tool-icon"></div>
+        </div>
+        <div id="tool_separator_3" class="tool-separator"></div>
+        <div id="explode-button" title="Explode Menu" data-operatorclass="toolbar-explode" data-submenu="explode-slider"
+          class="hoops-tool toolbar-menu-toggle">
+          <div class="tool-icon"></div>
+        </div>
+        <div id="cuttingplane-button2" title="Cutting Plane Menu" data-operatorclass="toolbar-cuttingplane"
+          class="hoops-tool toolbar-menu-toggle">
+          <div class="tool-icon"></div>
+        </div>
+      </div>
+      <div id="submenus">
+        <div id="redline-submenu" data-button="redline-button" class="toolbar-submenu submenus">
+          <table>
+            <tr>
+              <td>
+                <div id="redline-circle-button" title="Redline Cirlce" data-operatorclass="toolbar-redline-circle"
+                  class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="redline-rectangle-button" title="Redline Rectangle"
+                  data-operatorclass="toolbar-redline-rectangle" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="redline-note" title="Redline Note" data-operatorclass="toolbar-redline-note"
+                  class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="redline-freehand" title="Redline Freehand" data-operatorclass="toolbar-redline-freehand"
+                  class="submenu-icon"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="camera-submenu" data-button="camera-button" class="toolbar-submenu submenus">
+          <table>
+            <tr>
+              <td>
+                <div id="operator-camera-walk" title="Walk" data-operatorclass="toolbar-walk" class="submenu-icon">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="operator-camera-turntable" title="Turntable" data-operatorclass="toolbar-turntable"
+                  class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="operator-camera-orbit" title="Orbit Camera" data-operatorclass="toolbar-orbit"
+                  class="submenu-icon"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="edgeface-submenu" data-button="edgeface-button" class="toolbar-submenu submenus">
+          <table>
+            <tr>
+              <td>
+                <div id="viewport-wireframe-on-shaded" title="Shaded With Lines"
+                  data-operatorclass="toolbar-wireframeshaded" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="viewport-shaded" title="Shaded" data-operatorclass="toolbar-shaded" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div title="Hidden Line" data-operatorclass="toolbar-hidden-line" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="viewport-wireframe" title="Wireframe" data-operatorclass="toolbar-wireframe"
+                  class="submenu-icon"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="view-submenu" class="toolbar-submenu submenus">
+          <table>
+            <tr>
+              <td>
+                <div id="view-face" title="Orient Camera To Selected Face" data-operatorclass="toolbar-face"
+                  class="submenu-icon disabled"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="view-iso" title="Iso View" data-operatorclass="toolbar-iso" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-ortho" title="Orthographic Projection" data-operatorclass="toolbar-ortho"
+                  class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-persp" title="Perspective Projection" data-operatorclass="toolbar-persp"
+                  class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="view-left" title="Left View" data-operatorclass="toolbar-left" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-right" title="Right View" data-operatorclass="toolbar-right" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-bottom" title="Bottom View" data-operatorclass="toolbar-bottom" class="submenu-icon">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="view-front" title="Front View" data-operatorclass="toolbar-front" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-back" title="Back View" data-operatorclass="toolbar-back" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="view-top" title="Top View" data-operatorclass="toolbar-top" class="submenu-icon"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="click-submenu" data-button="click-button" class="toolbar-submenu submenus">
+          <table>
+            <tr>
+              <td>
+                <div id="note-button" title="Create Note-Pin" data-operatorclass="toolbar-note" class="submenu-icon">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="measure-angle-between-faces" title="Measure Angle Between Faces"
+                  data-operatorclass="toolbar-measure-angle" class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="measure-distance-between-faces" title="Measure Distance Between Faces"
+                  data-operatorclass="toolbar-measure-distance" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="measure-edges" title="Measure Edges" data-operatorclass="toolbar-measure-edge"
+                  class="submenu-icon"></div>
+              </td>
+              <td>
+                <div id="measure-point-to-point" title="Measure Point to Point"
+                  data-operatorclass="toolbar-measure-point" class="submenu-icon"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="select-parts" title="Select Parts" data-operatorclass="toolbar-select" class="submenu-icon">
+                </div>
+              </td>
+              <td>
+                <div id="area-select" title="Area Select" data-operatorclass="toolbar-area-select" class="submenu-icon">
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="explode-slider" class="toolbar-submenu slider-menu submenus">
+          <div id="explosion-slider" style="height: 90px" class="toolbar-slider"></div>
+        </div>
+        <div id="cuttingplane-submenu" class="toolbar-submenu cutting-plane submenus no-modal">
+          <table>
+            <tr>
+              <td>
+                <div id="cuttingplane-face" title="Create Cutting Plane On Selected Face" data-plane="face"
+                  data-operatorclass="toolbar-cuttingplane-face" class="toolbar-cp-plane submenu-icon disabled"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="cuttingplane-x" title="Cutting Plane X" data-plane="x"
+                  data-operatorclass="toolbar-cuttingplane-x" class="toolbar-cp-plane submenu-icon"></div>
+              </td>
+              <td>
+                <div id="cuttingplane-section" title="Cutting Plane Visibility Toggle" data-plane="section"
+                  data-operatorclass="toolbar-cuttingplane-section" class="toolbar-cp-plane submenu-icon disabled">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="cuttingplane-y" title="Cutting Plane Y" data-plane="y"
+                  data-operatorclass="toolbar-cuttingplane-y" class="toolbar-cp-plane submenu-icon"></div>
+              </td>
+              <td>
+                <div id="cuttingplane-toggle" title="Cutting Plane Section Toggle" data-plane="toggle"
+                  data-operatorclass="toolbar-cuttingplane-toggle" class="toolbar-cp-plane submenu-icon disabled"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="cuttingplane-z" title="Cutting Plane Z" data-plane="z"
+                  data-operatorclass="toolbar-cuttingplane-z" class="toolbar-cp-plane submenu-icon"></div>
+              </td>
+              <td>
+                <div id="cuttingplane-reset" title="Cutting Plane Reset" data-plane="reset"
+                  data-operatorclass="toolbar-cuttingplane-reset" class="toolbar-cp-plane submenu-icon disabled"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toolbarTop">
+    <input class="toolbarBtn" data-command="property" type="image" src="images/property.png" title="Property" />
+    <input class="toolbarBtn" data-command="inspection" type="image" src="images/check.png" title="Inspection" />
+    <input class="toolbarBtn" data-command="results" type="image" src="images/results.png" title="Inspection results" />
+    <input class="toolbarBtn" data-command="settings" type="image" src="images/settings.png" title="Settings" />
+  </div>
+
+  <div class="panel" id="treePanel" style="display: none">
+    <div id="tree1"></div>
+    <div id="treeTools"></div>
+  </div>
+
+  <div class="panel" id="propertyPanel" style="display: none">
+    <table class="panelTbl" id="propatyTbl">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="panel" id="inspectionPanel" style="display: none">
+    <div id="inspectionPanelContents">
+      <div id="inspectionToolbar">
+        <input class="resultBtn" data-command="OK" type="image" name="image_button" src="images/ok.png" title="OK" />
+        <input class="resultBtn" data-command="NG" type="image" name="image_button" src="images/ng.png" title="NG" />
+        <input class="resultBtn" data-command="annotation" type="image" name="image_button" src="images/note.png"
+          title="Annotation" />
+        <input class="inspectionBtn" data-command="save" type="image" name="image_button" src="images/save.png"
+          title="Save" style="margin-left: 5px" />
+      </div>
+      <textarea id="comment" cols="45" rows="5"></textarea><br />
+      <div id="photoImage" style="display: none">
+        <input id="file_image" type="file" accept="image/*" capture="camera" class="file" />
+        <label class="file_mask">
+          <span>
+            <!- ->
+          </span>
+          <input type="text" id="mask_file_01" />
+        </label>
+        <label class="file_delete">
+          <span>
+            <!- ->
+          </span>
+        </label>
+        <br />
+        <canvas id="imgCanvas" style="display: none"></canvas>
+      </div>
+      <input class="lowerRightPanel" data-command="collapseInspection" type="image" name="image_button"
+        src="images/collapse.png" />
+    </div>
+    <input class="lowerRightPanel" data-command="expandInspection" type="image" name="image_button"
+      src="images/expand.png" style="display: none" />
+  </div>
+
+  <div class="panel" id="resultsPanel" style="display: none">
+    <div id="resultsPanelContents">
+      <div id="resultsTblPanel">
+        <table class="panelTbl" id="resultsTbl">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Result</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <textarea id="commentRes" cols="45" rows="3"></textarea>
+      <br />
+      <img id="imageRes" />
+      <input class="lowerRightPanel" data-command="collapseResults" type="image" name="image_button"
+        src="images/collapse.png" />
+    </div>
+    <input class="lowerRightPanel" data-command="expandResults" type="image" name="image_button" src="images/expand.png"
+      style="display: none" />
+  </div>
+
+  <div class="panel" id="settingsPanel" style="display: none; padding: 10px">
+    <div class="checkbox">
+      <label>
+        <input class="settingChk" data-command="background" type="checkbox" checked="checked" /><span
+          id="backgroundColorLabel">Set background color</span><br />
+      </label>
+      <br />
+      <label>
+        <input class="settingChk" data-command="walkMap" type="checkbox" checked="checked" /><span
+          id="walkMapLabel">Show walk map</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="walkNavi topCenter" style="display: none">
+    <input class="arrowBtn" data-dir="up" type="image" name="image_button" src="images/up.png" /><br />
+    <input class="arrowBtn" data-dir="down" type="image" name="image_button" src="images/down.png" /><br />
+  </div>
+
+  <div class="walkNavi bottomCenter" style="display: none">
+    <input class="arrowBtn" data-dir="forward" type="image" name="image_button" src="images/arrow_up.png" /><br />
+    <input class="arrowBtn" data-dir="backward" type="image" name="image_button" src="images/arrow_down.png" />
+  </div>
+
+  <div class="walkNavi leftCenter" style="display: none">
+    <input class="arrowBtn" data-dir="turnLeft" type="image" name="image_button" src="images/turn_left.png" /><br />
+    <input class="arrowBtn" data-dir="left" type="image" name="image_button" src="images/arrow_left.png" />
+  </div>
+
+  <div class="walkNavi rightCenter" style="display: none">
+    <input class="arrowBtn" data-dir="turnRight" type="image" name="image_button" src="images/turn_right.png" /><br />
+    <input class="arrowBtn" data-dir="right" type="image" name="image_button" src="images/arrow_right.png" />
+  </div>
+
+  <div class="walkNaviSensor lowerLeft" style="display: none">
+    <input id="sensorOff" data-on="true" type="image" name="image_button" src="images/shake.png" /><br />
+  </div>
+
+  <div id="cameraPosition" style="display: none">
+    <div id="cameraX">X</div>
+    <div id="cameraY">Y</div>
+    <div id="cameraZ">Z</div>
+  </div>
+
+  <div class="lowerRight" id="clipInfo" style="display: none">
+    <input id="resetCutPlane" type="image" name="image_button" src="images/reset.png" />
+    <input id="cuttingPlane" data-on="true" type="image" name="image_button" src="images/cutting_plane.png" /><br />
+    <table id="clipTbl">
+      <tr>
+        <td>-X:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>+X:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>-Y:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>+Y:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>-Z:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>+Z:</td>
+        <td></td>
+        <td style="text-align: left"></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+
+  <img id="loadingImage" class="centerBlock" src="images/spinner.gif" style="display: none" />
+
+  <div id="orientation" class="debug" style="display: none"></div>
+  <div id="compassHeading" class="debug" style="display: none"></div>
+  <div id="info1" class="debug" style="display: none"></div>
+  <div id="testBtns" style="display: none">
+    <div id="rotationRateAlpha" class="debug" style="background-color: #ffffff"></div>
+    <div id="rotationRateBeta" class="debug" style="background-color: #ffffff"></div>
+    <div id="rotationRateGamma" class="debug" style="background-color: #ffffff"></div>
+    <button id="testBtn1" class="debug" style="display: none">Test1</button><br />
+    <button id="testBtn2" class="debug" style="display: none">Test2</button><br />
+  </div>
+</body>
+
+</html>

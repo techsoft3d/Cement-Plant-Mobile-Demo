@@ -1,0 +1,176 @@
+#toolbarTop {
+    position: absolute;
+    top: 2px;
+    left: 2px
+}
+.toolbarBtn,
+.inspectionBtn,
+.resultBtn,
+#hidePlane {
+    border: solid 1px #000000;
+    background-color: white;
+    width: 32px;
+    height: 32px;
+}
+#sensorOff {
+    border: solid 1px #000000;
+    background-color: lightblue;
+    width: 32px;
+    height: 32px;
+}
+.panel {
+    position: absolute;
+    overflow-y:auto;
+    top: 36px;
+    left: 2px;
+    background-color: rgba(198,199,200,0.8);
+    width: 370px;
+    z-index: 1;
+}
+#resultsTblPanel{
+    overflow-y:auto;
+}
+table.panelTbl {
+    width: 100%;
+    overflow-y: auto;
+}
+table.panelTbl th {
+    border: solid 1px #000000;
+    text-align: center;
+}
+table.panelTbl td {
+    border: solid 1px #000000;
+}
+table#clipTbl td{
+    text-align: right;
+    padding: 0px 5px 0px;
+}
+.centerBlock{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}
+.topCenter{
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    margin: auto;
+	width: 48px;
+}
+.bottomCenter {
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    width: 100%;
+    text-align:center;
+    z-index: 0;
+}
+.leftCenter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 48px;
+    height: 96px;
+}
+.rightCenter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 48px;
+    height: 96px;
+}
+.lowerLeft {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+}
+.lowerRight {
+    position: absolute;
+    right: 15px;
+    bottom: 60px;
+}
+.arrowBtn {
+    outline: 0;
+    width: 48px;
+    height: 48px;
+}
+#modelTree {
+    position: absolute;
+    min-width: 200px;
+    overflow: auto;
+    right: 20px;
+}
+#treeTools {
+    position: absolute;
+    top: 2px;
+    right: 2px
+}
+#file_image {
+    display:none;
+    position: absolute; 
+    left: 0px;
+    bottom: 30px;
+}
+#mask_file_01 {
+	display:none;
+}
+.file_mask span{
+	display:block;
+	background-image:url(images/camera.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+	height:32px;
+	width:32px;
+	cursor:pointer;
+}
+.file_delete span{
+    display:block;
+	background-image:url(images/delete.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+	height:32px;
+	width:32px;
+	cursor:pointer;
+    margin-left: 5px;
+}
+#inspectionToolbar {
+    background-color: white;
+}
+#imageRes,
+#imgCanvas {
+    left: 0px;
+    top: 0px;
+    width: 300px;
+    height: 225px;
+    z-index: 1;
+}
+.tableBtn {
+    border: solid 1px #000000;
+    background-color: gainsboro;
+}
+#cameraPosition {
+    position: absolute;
+    right: 20px;
+    bottom: 60px;
+}
+#testBtns {
+    position: absolute;
+    right: 20px;
+    bottom: 80px;
+}
+#settings {
+    top: -10px;
+}
+.lowerRightPanel {
+    position:absolute;
+    bottom: 5px;
+    right: 5px;
+}
