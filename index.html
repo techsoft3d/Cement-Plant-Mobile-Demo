@@ -37,6 +37,7 @@
   <script type="text/javascript" src="javascripts/orbit_ctrl_operator.js"></script>
   <script type="text/javascript" src="javascripts/annotation_operator.js"></script>
   <script type="text/javascript" src="javascripts/text_markup_operator.js"></script>
+  <script type="text/javascript" src="javascripts/caas.min.js"></script>
 
   <link rel="stylesheet" href="stylesheets/jquery-ui-1.9.2.custom.min.css" />
   <link rel="stylesheet" href="stylesheets/bootstrap.min.css" />
@@ -48,6 +49,8 @@
     var g_token = [];
   </script>
   <script type="module">
+    caasClient.init('https://caas.techsoft3d.com', { accessKey: "651ae3b3b4571588031b0cc3" });
+
     import plant_viewer from "./javascripts/plant_viewer.js";
 
     var language = browserLanguage();

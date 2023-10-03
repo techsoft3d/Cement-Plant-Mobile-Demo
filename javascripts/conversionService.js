@@ -1,23 +1,12 @@
 
 
 export async function startViewer(uid) {
-        const conversionServiceURI = "https://csapi.techsoft3d.com";
-
         var viewer;
-
-        let res = await fetch(conversionServiceURI + '/api/streamingSession');
-        var data = await res.json();
-        var endpointUriBeginning = 'ws://';
-
-        if(conversionServiceURI.substring(0, 5).includes("https")){
-                endpointUriBeginning = 'wss://'
-        }
-
-        await fetch(conversionServiceURI + '/api/enableStreamAccess/' + data.sessionid, { method: 'put', headers: { 'items': JSON.stringify(uid) } });
-
+        let sessioninfo = await caasClient.getStreamingSession();
+        await caasClient.enableStreamAccess(sessioninfo.sessionid, uid);
         viewer = new Communicator.WebViewer({
                 containerId: "container",
-                endpointUri: endpointUriBeginning + data.serverurl + ":" + data.port + '?token=' + data.sessionid,
+                endpointUri: sessioninfo.endpointUri,
                 model: "_empty",
                 enginePath: "https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer",
                 rendererType: 0
@@ -25,6 +14,6 @@ export async function startViewer(uid) {
 
         viewer.start();
 
-        return [viewer, data];
+        return viewer
 
 }
