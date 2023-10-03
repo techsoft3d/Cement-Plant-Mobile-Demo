@@ -1,6 +1,6 @@
 # Hoops Web Platform - Cement Plant Mobile Demo
 
-See this demo running live on [GitHub Pages](https://techsoft3d.github.io/2D-DWG-Drawing-Viewer/index.html?instance=HotelFloorplan).
+See this demo running live on [GitHub Pages](https://techsoft3d.github.io/Cement-Plant-Mobile-Demo/).
 
 ## In order to run locally
 
