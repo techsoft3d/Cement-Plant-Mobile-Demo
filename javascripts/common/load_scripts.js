@@ -1,6 +1,6 @@
 const loadScripts = () => {
   // Load common scripts and Communicator Scripts.
-  const HWP_VERSION = "latest";
+  const HWP_VERSION = "latest_release";
 
   // URL of files to load.
   const files = [
